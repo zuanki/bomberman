@@ -5,8 +5,8 @@ import bomberman.render.RenderWindow;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
-    private final int width = 32;
-    private final int height = 32;
+    protected int width = 32;
+    protected int height = 32;
     protected int x;
     protected int y;
     protected boolean active = true;
@@ -16,6 +16,11 @@ public abstract class Entity {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.image = image;
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public int getX() {

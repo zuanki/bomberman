@@ -19,7 +19,7 @@ public class TileMap {
 
     public TileMap() {
         LevelReader reader = new LevelReader(this);
-        reader.read(1);
+        reader.read(2);
         this.bomber = new Bomber(1, 1, Sprite.player_down.getFxImage());
         this.entitiesManager.add(this.bomber);
         this.physicSystem.add(this.bomber);
