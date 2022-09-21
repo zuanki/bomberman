@@ -1,28 +1,65 @@
 package bomberman.render;
 
-import bomberman.utilities.Vector2i;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class RenderWindow {
-    private Vector2i size;
-    private View view;
+    private int width;
+    private int height;
+    private int offSetX = 0;
+    private int offSetY = 0;
+    private GraphicsContext graphicsContext;
 
-    public RenderWindow() {
+    public RenderWindow(Canvas canvas) {
+        this.graphicsContext = canvas.getGraphicsContext2D();
     }
 
-    public View getDefaultView() {
-        return new View(new Vector2i(0, 0), this.size);
+    public int getOffSetX() {
+        return offSetX;
     }
 
-    public View getView() {
-        return this.view;
+    public void setOffSetX(int offSetX) {
+        this.offSetX = offSetX;
     }
 
-    public void setView(View view) {
-        this.view = view;
+    public int getOffSetY() {
+        return offSetY;
     }
 
-    public void setSize(int x, int y) {
-        this.size.x = x;
-        this.size.y = y;
+    public void setOffSetY(int offSetY) {
+        this.offSetY = offSetY;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public GraphicsContext getGraphicsContext() {
+        return graphicsContext;
+    }
+
+    public void setGraphicsContext(GraphicsContext graphicsContext) {
+        this.graphicsContext = graphicsContext;
+    }
+
+    public void render(Image image, int x, int y) {
+        this.graphicsContext.drawImage(image, x - offSetX, y - offSetY);
+    }
+
+    public void clear() {
+        this.graphicsContext.clearRect(0, 0, this.width, this.height);
     }
 }

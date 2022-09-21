@@ -3,21 +3,21 @@ package bomberman;
 import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
 import bomberman.map.TileMap;
-import javafx.animation.AnimationTimer;
+import bomberman.render.RenderWindow;
+import bomberman.system.GameLoop;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 public class BombermanGame extends Application {
-
     public static final int WIDTH = 15;
     public static final int HEIGHT = 13;
+
     private final TileMap map = new TileMap();
-    private GraphicsContext graphicsContext;
     private Canvas canvas;
+    private RenderWindow renderWindow;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -25,33 +25,20 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-        graphicsContext = canvas.getGraphicsContext2D();
-
-        // Tao root container
+        this.canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        this.renderWindow = new RenderWindow(canvas);
+        this.renderWindow.setWidth(Sprite.SCALED_SIZE * WIDTH);
+        this.renderWindow.setHeight(Sprite.SCALED_SIZE * HEIGHT);
         Group root = new Group();
-        root.getChildren().add(canvas);
-        // Tao scene
+        root.getChildren().add(this.canvas);
         Scene scene = new Scene(root);
-
-        // Input
-        scene.setOnKeyPressed(keyEvent -> KeyPolling.getInstance().addKey(keyEvent.getCode()));
-        scene.setOnKeyReleased(keyEvent -> KeyPolling.getInstance().removeKey(keyEvent.getCode()));
-
-        // Add scene vao stage
         stage.setScene(scene);
         stage.show();
-
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                render();
-                update();
-            }
-        };
-        timer.start();
+        //Input
+        scene.setOnKeyPressed(keyEvent -> KeyPolling.getInstance().addKey(keyEvent.getCode()));
+        scene.setOnKeyReleased(keyEvent -> KeyPolling.getInstance().removeKey(keyEvent.getCode()));
+        GameLoop gameLoop = new GameLoop(this);
+        gameLoop.start();
     }
 
     public void update() {
@@ -59,7 +46,7 @@ public class BombermanGame extends Application {
     }
 
     public void render() {
-        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        map.render(graphicsContext);
+        this.renderWindow.clear();
+        map.render(this.renderWindow);
     }
 }

@@ -1,25 +1,60 @@
 package bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import bomberman.graphics.Sprite;
+import bomberman.render.RenderWindow;
+import javafx.scene.image.Image;
 
 public abstract class Entity {
+    private final int width = 32;
+    private final int height = 32;
     protected int x;
     protected int y;
+    protected boolean active = true;
+    protected Image image;
 
-    protected Image img;
-    public Entity( int xUnit, int yUnit, Image img) {
+    public Entity(int xUnit, int yUnit, Image image) {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
-        this.img = img;
+        this.image = image;
     }
 
-    public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+    public int getX() {
+        return x;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void render(RenderWindow renderWindow) {
+        renderWindow.render(image, x, y);
+    }
+
     public abstract void update();
+
+    public void onCollision(Entity other) {
+        //
+    }
+
+    public boolean intersects(Entity other) {
+        boolean xCollision = (this.x < other.x + other.width) && (this.x + this.width > other.x);
+        boolean yCollision = (this.y < other.y + other.height) && (this.y + this.height > other.y);
+        return xCollision && yCollision;
+    }
 }
