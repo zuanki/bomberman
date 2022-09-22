@@ -1,12 +1,12 @@
 package bomberman.entities;
 
 import bomberman.graphics.Sprite;
-import javafx.scene.image.Image;
 
-public class Wall extends Entity{
-    public Wall(int xUnit, int yUnit){
-        super(xUnit, yUnit, Sprite.wall.getFxImage());
+public class Wall extends Entity {
+    public Wall(int xUnit, int yUnit, int layer) {
+        super(xUnit, yUnit, Sprite.wall.getFxImage(), layer);
     }
+
     @Override
     public void update() {
         //

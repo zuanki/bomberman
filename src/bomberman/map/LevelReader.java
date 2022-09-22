@@ -17,8 +17,7 @@ public class LevelReader {
         scanner.nextInt();
         int rows = scanner.nextInt();
         int cols = scanner.nextInt();
-        map.setCols(cols);
-        map.setRows(rows);
+        map.setDimension(rows, cols);
         scanner.nextLine();
 
         for (int i = 0; i < rows; ++i) {

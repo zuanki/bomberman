@@ -1,20 +1,23 @@
 package bomberman.entities;
 
 import bomberman.inputs.KeyPolling;
+import bomberman.map.TileMap;
 import bomberman.utilities.Vector2f;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 public class Bomber extends Entity {
-    private final int playerWidth = 24;
-    private final int playerHeight = 32;
+    private final int playerWidth = 24; //24
+    private final int playerHeight = 32; //32
     boolean willDie = false;
-    private int moveSpeed = 3;
+    private int moveSpeed = 2;
+    private TileMap map;
     private int timer = 120; //120 / 60 = 2
 
-    public Bomber(int xUnit, int yUnit, Image image) {
-        super(xUnit, yUnit, image);
+    public Bomber(int xUnit, int yUnit, Image image, TileMap map, int layer) {
+        super(xUnit, yUnit, image, layer);
         super.setSize(this.width, this.height);
+        this.map = map;
     }
 
 
@@ -38,6 +41,8 @@ public class Bomber extends Entity {
             this.x += this.moveSpeed;
         } else if (KeyPolling.getInstance().isKeyDown(KeyCode.X)) {
             willDie = true;
+        } else if (KeyPolling.getInstance().isKeyDown(KeyCode.K)) {
+            this.map.addBomb(this.getColIndex(), this.getRowIndex());
         }
     }
 
@@ -61,14 +66,18 @@ public class Bomber extends Entity {
         }
         this.x += resolveX;
         this.y += resolveY;
-        System.out.println(this.x + " " + this.y);
+        //System.out.println(this.x + " " + this.y);
     }
 
     @Override
     public void onCollision(Entity other) {
-        //
         if (other instanceof Wall) {
             this.afterCollision(other);
+        }
+        if (other instanceof Bomb bomb) {
+            if (bomb.isPlayerLeft()) {
+                this.afterCollision(other);
+            }
         }
     }
 }

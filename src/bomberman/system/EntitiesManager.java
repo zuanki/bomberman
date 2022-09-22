@@ -4,6 +4,7 @@ import bomberman.entities.Entity;
 import bomberman.render.RenderWindow;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class EntitiesManager {
     }
 
     public void render(RenderWindow renderWindow) {
+        entities.sort(Comparator.comparingInt(Entity::getLayer));
         for (Entity entity : this.entities) {
             entity.render(renderWindow);
         }

@@ -34,9 +34,10 @@ public class BombermanGame extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        //Input
+        // Input
         scene.setOnKeyPressed(keyEvent -> KeyPolling.getInstance().addKey(keyEvent.getCode()));
         scene.setOnKeyReleased(keyEvent -> KeyPolling.getInstance().removeKey(keyEvent.getCode()));
+        //
         GameLoop gameLoop = new GameLoop(this);
         gameLoop.start();
     }

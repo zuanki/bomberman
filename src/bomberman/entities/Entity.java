@@ -1,21 +1,28 @@
 package bomberman.entities;
 
 import bomberman.graphics.Sprite;
+import bomberman.map.TileMap;
 import bomberman.render.RenderWindow;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
-    protected int width = 32;
-    protected int height = 32;
+    protected int width = 30; // 32
+    protected int height = 30; // 32
     protected int x;
     protected int y;
     protected boolean active = true;
     protected Image image;
+    protected int layer = 0;
 
-    public Entity(int xUnit, int yUnit, Image image) {
+    public Entity(int xUnit, int yUnit, Image image, int layer) {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.image = image;
+        this.layer = layer;
+    }
+
+    public int getLayer() {
+        return layer;
     }
 
     public void setSize(int width, int height) {
@@ -37,6 +44,14 @@ public abstract class Entity {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getRowIndex() {
+        return (int) (this.y + this.height / 2.0) / TileMap.CELL_SIZE;
+    }
+
+    public int getColIndex() {
+        return (int) (this.x + this.width / 2.0) / TileMap.CELL_SIZE;
     }
 
     public boolean isActive() {
