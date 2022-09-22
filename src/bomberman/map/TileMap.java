@@ -9,11 +9,12 @@ import bomberman.utilities.Util;
 
 public class TileMap {
     public static final int CELL_SIZE = Sprite.SCALED_SIZE;
-    public static final int GRASS_LAYER = 0;
-    public static final int WALL_LAYER = 0;
+    public static final int GRASS_LAYER = -1;
+    public static final int WALL_LAYER = 1;
     public static final int BOMBER_LAYER = 100;
     public static final int BOMB_LAYER = 1;
     public static final int FLAME_LAYER = 1;
+    public static final int ANIMATION_LAYER = 1;
     private int rows;
     private int cols;
     private EntitiesManager entitiesManager = new EntitiesManager();
@@ -97,5 +98,9 @@ public class TileMap {
     public void addFlame(int xUnit, int yUnit, Flame.Type type) {
         Flame flame = new Flame(xUnit, yUnit, type, FLAME_LAYER);
         this.entitiesManager.add(flame);
+    }
+
+    public void addAnimation(Sprite a, Sprite b, Sprite c, int xUnit, int yUnit) {
+        this.entitiesManager.add(new Animation(a, b, c, xUnit, yUnit, ANIMATION_LAYER));
     }
 }

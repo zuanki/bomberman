@@ -26,9 +26,8 @@ public class LevelReader {
                 char symbol = line.charAt(j);
                 if (symbol == '#') {
                     map.addWall(j, i);
-                } else {
-                    map.addGrass(j, i);
                 }
+                map.addGrass(j, i);
             }
         }
     }

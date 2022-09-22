@@ -1,5 +1,6 @@
 package bomberman.entities;
 
+import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
 import bomberman.map.TileMap;
 import bomberman.utilities.Vector2f;
@@ -11,7 +12,7 @@ public class Bomber extends Entity {
     private final int playerHeight = 32; //32
     boolean willDie = false;
     private int moveSpeed = 2;
-    private TileMap map;
+    private final TileMap map;
     private int timer = 120; //120 / 60 = 2
 
     public Bomber(int xUnit, int yUnit, Image image, TileMap map, int layer) {
