@@ -5,7 +5,7 @@ import javafx.animation.AnimationTimer;
 
 public class GameLoop extends AnimationTimer {
     private final double deltaTime = 1e9 / 60;
-    private BombermanGame game;
+    private final BombermanGame game;
     private long accumulator = 0;
     private long prev = System.nanoTime();
 

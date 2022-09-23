@@ -15,11 +15,12 @@ public class TileMap {
     public static final int BOMB_LAYER = 1;
     public static final int FLAME_LAYER = 1;
     public static final int ANIMATION_LAYER = 1;
+    private final EntitiesManager entitiesManager = new EntitiesManager();
+    private final PhysicSystem physicSystem = new PhysicSystem();
+    private final Bomber bomber;
+    public int levelFlame = 1;
     private int rows;
     private int cols;
-    private EntitiesManager entitiesManager = new EntitiesManager();
-    private PhysicSystem physicSystem = new PhysicSystem();
-    private Bomber bomber;
     private Entity[][] board;
 
     public TileMap() {
@@ -28,6 +29,14 @@ public class TileMap {
         this.bomber = new Bomber(1, 1, Sprite.player_down.getFxImage(), this, BOMBER_LAYER);
         this.entitiesManager.add(this.bomber);
         this.physicSystem.add(this.bomber);
+    }
+
+    public Entity getEntityAt(int row, int col) {
+        return this.board[col][row];
+    }
+
+    public Entity[][] getBoard() {
+        return board;
     }
 
     public void update() {
@@ -101,6 +110,6 @@ public class TileMap {
     }
 
     public void addAnimation(Sprite a, Sprite b, Sprite c, int xUnit, int yUnit) {
-        this.entitiesManager.add(new Animation(a, b, c, xUnit, yUnit, ANIMATION_LAYER));
+        this.entitiesManager.add(new UAnimation(a, b, c, xUnit, yUnit, ANIMATION_LAYER));
     }
 }

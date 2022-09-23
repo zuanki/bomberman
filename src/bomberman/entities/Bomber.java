@@ -1,6 +1,5 @@
 package bomberman.entities;
 
-import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
 import bomberman.map.TileMap;
 import bomberman.utilities.Vector2f;
@@ -10,9 +9,9 @@ import javafx.scene.input.KeyCode;
 public class Bomber extends Entity {
     private final int playerWidth = 24; //24
     private final int playerHeight = 32; //32
-    boolean willDie = false;
-    private int moveSpeed = 2;
     private final TileMap map;
+    private final int moveSpeed = 2;
+    boolean willDie = false;
     private int timer = 120; //120 / 60 = 2
 
     public Bomber(int xUnit, int yUnit, Image image, TileMap map, int layer) {
@@ -65,6 +64,7 @@ public class Bomber extends Entity {
         } else {
             resolveY = (disY > 0) ? overlapY : -overlapY;
         }
+        // After
         this.x += resolveX;
         this.y += resolveY;
         //System.out.println(this.x + " " + this.y);

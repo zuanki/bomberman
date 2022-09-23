@@ -6,6 +6,7 @@ import bomberman.render.RenderWindow;
 
 public class Flame extends Entity {
     public Type type;
+    private int timer = 60;
 
     public Flame(int xUnit, int yUnit, Type type, int layer) {
         super(xUnit, yUnit, null, layer);
@@ -36,7 +37,10 @@ public class Flame extends Entity {
 
     @Override
     public void update() {
-
+        --timer;
+        if (timer == 0) {
+            this.setActive(false);
+        }
     }
 
     public enum Type {

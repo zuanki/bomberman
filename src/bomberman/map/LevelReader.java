@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class LevelReader {
-    private TileMap map;
+    private final TileMap map;
 
     public LevelReader(TileMap map) {
         this.map = map;

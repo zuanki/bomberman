@@ -33,6 +33,8 @@ public class BombermanGame extends Application {
         root.getChildren().add(this.canvas);
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Bomberman");
+        stage.getIcons().add(Sprite.bomb.getFxImage());
         stage.show();
         // Input
         scene.setOnKeyPressed(keyEvent -> KeyPolling.getInstance().addKey(keyEvent.getCode()));
