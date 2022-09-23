@@ -55,12 +55,11 @@ public class Bomb extends Entity {
                 Entity tmp = this.map.getEntityAt(y, x);
                 if (tmp instanceof Wall) {
                     break;
-                }
-                /*else if (tmp instanceof Brick brick) {
-                    brick.die();
+                } else if (tmp instanceof Brick) {
+                    //tmp = (Brick) tmp;
+                    ((Brick) tmp).eliminate();
                     break;
-                } */
-                else {
+                } else {
                     this.map.addFlame(y, x, this.getFlameType(y, x, radius));
                 }
             }

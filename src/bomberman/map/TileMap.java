@@ -15,18 +15,22 @@ public class TileMap {
     public static final int BOMB_LAYER = 1;
     public static final int FLAME_LAYER = 1;
     public static final int ANIMATION_LAYER = 1;
+    public static final int BRICK_LAYER = 1;
     private final EntitiesManager entitiesManager = new EntitiesManager();
     private final PhysicSystem physicSystem = new PhysicSystem();
-    private final Bomber bomber;
-    public int levelFlame = 1;
+    public int levelFlame = 2;
+    private Bomber bomber;
     private int rows;
     private int cols;
     private Entity[][] board;
 
     public TileMap() {
         LevelReader reader = new LevelReader(this);
-        reader.read(2);
-        this.bomber = new Bomber(1, 1, Sprite.player_down.getFxImage(), this, BOMBER_LAYER);
+        reader.read(1);
+    }
+
+    public void addBomber(int xUnit, int yUnit) {
+        this.bomber = new Bomber(xUnit, yUnit, Sprite.player_down.getFxImage(), this, BOMBER_LAYER);
         this.entitiesManager.add(this.bomber);
         this.physicSystem.add(this.bomber);
     }
@@ -84,6 +88,13 @@ public class TileMap {
         this.board[yUnit][xUnit] = wall;
         this.entitiesManager.add(wall);
         this.physicSystem.add(wall);
+    }
+
+    public void addBrick(int xUnit, int yUnit) {
+        Brick brick = new Brick(xUnit, yUnit, BRICK_LAYER);
+        this.board[yUnit][xUnit] = brick;
+        this.entitiesManager.add(brick);
+        this.physicSystem.add(brick);
     }
 
     public void addGrass(int xUnit, int yUnit) {

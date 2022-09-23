@@ -71,6 +71,7 @@ public abstract class Entity {
     public void onCollision(Entity other) {
         //
     }
+    
 
     public boolean intersects(Entity other) {
         boolean xCollision = (this.x < other.x + other.width) && (this.x + this.width > other.x);

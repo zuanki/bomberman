@@ -75,6 +75,9 @@ public class Bomber extends Entity {
         if (other instanceof Wall) {
             this.afterCollision(other);
         }
+        if (other instanceof Brick) {
+            this.afterCollision(other);
+        }
         if (other instanceof Bomb bomb) {
             if (bomb.isPlayerLeft()) {
                 this.afterCollision(other);

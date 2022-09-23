@@ -26,6 +26,10 @@ public class LevelReader {
                 char symbol = line.charAt(j);
                 if (symbol == '#') {
                     map.addWall(j, i);
+                } else if (symbol == '*') {
+                    map.addBrick(j, i);
+                } else if (symbol == 'p') {
+                    map.addBomber(j, i);
                 }
                 map.addGrass(j, i);
             }
