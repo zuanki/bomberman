@@ -58,6 +58,7 @@ public class Bomb extends Entity {
                 } else if (tmp instanceof Brick) {
                     //tmp = (Brick) tmp;
                     ((Brick) tmp).eliminate();
+                    this.map.addAnimation(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, y, x);
                     break;
                 } else {
                     this.map.addFlame(y, x, this.getFlameType(y, x, radius));

@@ -30,6 +30,8 @@ public class LevelReader {
                     map.addBrick(j, i);
                 } else if (symbol == 'p') {
                     map.addBomber(j, i);
+                } else if (symbol == '1') {
+                    map.addEnemyBalloom(j, i);
                 }
                 map.addGrass(j, i);
             }

@@ -1,6 +1,7 @@
 package bomberman.map;
 
 import bomberman.entities.*;
+import bomberman.entities.enemies.Balloom;
 import bomberman.graphics.Sprite;
 import bomberman.render.RenderWindow;
 import bomberman.system.EntitiesManager;
@@ -14,8 +15,9 @@ public class TileMap {
     public static final int BOMBER_LAYER = 100;
     public static final int BOMB_LAYER = 1;
     public static final int FLAME_LAYER = 1;
-    public static final int ANIMATION_LAYER = 1;
+    public static final int ANIMATION_LAYER = 2;
     public static final int BRICK_LAYER = 1;
+    public static final int ENEMY_LAYER = 1;
     private final EntitiesManager entitiesManager = new EntitiesManager();
     private final PhysicSystem physicSystem = new PhysicSystem();
     public int levelFlame = 2;
@@ -35,8 +37,8 @@ public class TileMap {
         this.physicSystem.add(this.bomber);
     }
 
-    public Entity getEntityAt(int row, int col) {
-        return this.board[col][row];
+    public Entity getEntityAt(int xUnit, int yUnit) {
+        return this.board[yUnit][xUnit];
     }
 
     public Entity[][] getBoard() {
@@ -122,5 +124,9 @@ public class TileMap {
 
     public void addAnimation(Sprite a, Sprite b, Sprite c, int xUnit, int yUnit) {
         this.entitiesManager.add(new UAnimation(a, b, c, xUnit, yUnit, ANIMATION_LAYER));
+    }
+
+    public void addEnemyBalloom(int xUnit, int yUnit) {
+        this.entitiesManager.add(new Balloom(xUnit, yUnit, this));
     }
 }
