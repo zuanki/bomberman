@@ -2,6 +2,7 @@ package bomberman.map;
 
 import bomberman.entities.*;
 import bomberman.entities.enemies.Balloom;
+import bomberman.entities.enemies.Oneal;
 import bomberman.graphics.Sprite;
 import bomberman.render.RenderWindow;
 import bomberman.system.EntitiesManager;
@@ -28,7 +29,7 @@ public class TileMap {
 
     public TileMap() {
         LevelReader reader = new LevelReader(this);
-        reader.read(1);
+        reader.read(2);
     }
 
     public void addBomber(int xUnit, int yUnit) {
@@ -120,6 +121,7 @@ public class TileMap {
     public void addFlame(int xUnit, int yUnit, Flame.Type type) {
         Flame flame = new Flame(xUnit, yUnit, type, FLAME_LAYER);
         this.entitiesManager.add(flame);
+        this.physicSystem.add(flame);
     }
 
     public void addAnimation(Sprite a, Sprite b, Sprite c, int xUnit, int yUnit) {
@@ -127,6 +129,15 @@ public class TileMap {
     }
 
     public void addEnemyBalloom(int xUnit, int yUnit) {
-        this.entitiesManager.add(new Balloom(xUnit, yUnit, this));
+        Balloom balloom = new Balloom(xUnit, yUnit, this);
+        this.entitiesManager.add(balloom);
+        this.physicSystem.add(balloom);
     }
+
+    public void addEnemyOneal(int xUnit, int yUnit) {
+        Oneal oneal = new Oneal(xUnit, yUnit, this);
+        this.entitiesManager.add(oneal);
+        this.physicSystem.add(oneal);
+    }
+
 }

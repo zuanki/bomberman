@@ -32,6 +32,8 @@ public class LevelReader {
                     map.addBomber(j, i);
                 } else if (symbol == '1') {
                     map.addEnemyBalloom(j, i);
+                } else if (symbol == '2') {
+                    map.addEnemyOneal(j, i);
                 }
                 map.addGrass(j, i);
             }
