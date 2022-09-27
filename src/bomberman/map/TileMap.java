@@ -29,7 +29,7 @@ public class TileMap {
 
     public TileMap() {
         LevelReader reader = new LevelReader(this);
-        reader.read(2);
+        reader.read(1);
     }
 
     public void addBomber(int xUnit, int yUnit) {

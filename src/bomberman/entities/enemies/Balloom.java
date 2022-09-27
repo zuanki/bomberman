@@ -39,11 +39,14 @@ public class Balloom extends Enemy {
         // Try to move current dir
         if (canMove(c + movingVector.x, r + movingVector.y)) {
             return new Vector2i(c + movingVector.x, r + movingVector.y);
+            //return new Vector2i(0, 0);
         } else if (canMove(c - movingVector.x, r - movingVector.y)) {
             return new Vector2i(c - movingVector.x, r - movingVector.y);
+            //return new Vector2i(0, 0);
         }
 
         return new Vector2i(c, r);
+        //return new Vector2i(0, 0);
     }
 
     @Override
