@@ -10,10 +10,13 @@ import bomberman.render.RenderWindow;
 import bomberman.utilities.Vector2i;
 import javafx.util.Pair;
 
+import java.util.List;
+
 
 public class Oneal extends Enemy {
     //private List<Pair<Integer, Integer>> listMoveAStar = new ArrayList<>();
-    private AStar aStar = new AStar();
+    private final AStar aStar = new AStar();
+    private final int radius = 3;
 
     public Oneal(int xUnit, int yUnit, TileMap map) {
         super(xUnit, yUnit, map);
@@ -33,17 +36,26 @@ public class Oneal extends Enemy {
     @Override
     protected Vector2i getNextMove() {
         // Nguyen Hoa
-        int playerRowPos = this.map.getBomber().getRowIndex();
-        int playerColPos = this.map.getBomber().getColIndex();
-        int[][] board = convertMap(this.map.getBoard());
+        if (this.canDetectBomber()) {
+            int playerRowPos = this.map.getBomber().getRowIndex();
+            int playerColPos = this.map.getBomber().getColIndex();
+            int[][] board = convertMap(this.map.getBoard());
+            return aStar.nextMoveByAStar(board, new Pair<>(this.getRowIndex(),
+                    this.getColIndex()), new Pair<>(playerRowPos, playerColPos));
+        } else {
+            List<Vector2i> freeCells = getFreeCell();
+            if (freeCells.isEmpty()) {
+                return new Vector2i(getRowIndex(), getColIndex());
+            }
+            int index = (int) (Math.random() * freeCells.size());
+            return freeCells.get(index);
+        }
         // Pair (row, col)
         /*System.out.println("Enemy :");
         System.out.println(this.getColIndex() + " " + this.getRowIndex());
         System.out.println("Bomber :");
         System.out.println(playerXPos + " " + playerYPos);*/
         //return aStar.nextMoveByAStar(board, new Pair<>(this.getColIndex(), this.getRowIndex()), new Pair<>(12, 15));
-        return aStar.nextMoveByAStar(board, new Pair<>(this.getRowIndex(),
-                this.getColIndex()), new Pair<>(playerRowPos, playerColPos));
         //return new Vector2i(this.getColIndex(), this.getRowIndex());
 
         // Move random
@@ -110,6 +122,14 @@ public class Oneal extends Enemy {
             }
         }
         return res;
+    }
+
+    private boolean canDetectBomber() {
+        int srcXPos = this.getColIndex();
+        int srcYPos = this.getRowIndex();
+        int destXPos = this.map.getBomber().getColIndex();
+        int destYPos = this.map.getBomber().getRowIndex();
+        return Math.abs(srcXPos - destXPos) <= this.radius && Math.abs(srcYPos - destYPos) <= this.radius;
     }
 }
 

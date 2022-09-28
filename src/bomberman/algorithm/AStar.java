@@ -35,7 +35,8 @@ public class AStar {
                 {1, 0, 1, 1, 1, 1, 0, 1, 1, 1},
                 {1, 1, 1, 0, 0, 0, 1, 0, 0, 1}};
         //main.aStarSearch(board, new Pair<>(8, 0), new Pair<>(1, 6));
-        System.out.println(main.nextMoveByAStar(board, new Pair<>(8, 0), new Pair<>(7, 0), 9, 10).x);
+        Vector2i k = main.nextMoveByAStar(board, new Pair<>(8, 0), new Pair<>(7, 0));
+        System.out.println(k.x + " " + k.y);
     }*/
 
     public Vector2i nextMoveByAStar(int[][] board, Pair<Integer, Integer> src
@@ -43,7 +44,7 @@ public class AStar {
         List<Pair<Integer, Integer>> res = new ArrayList<>();
         this.aStarSearch(board, src, dest, board.length, board[0].length, res);
         if (res.size() == 0) {
-            return new Vector2i(src.getKey(), src.getValue());
+            return new Vector2i(src.getValue(), src.getKey());
         } else {
             return new Vector2i(res.get(1).getValue(), res.get(1).getKey());
         }
