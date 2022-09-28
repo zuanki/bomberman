@@ -2,36 +2,33 @@ package bomberman;
 
 import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
-import bomberman.map.TileMap;
-import bomberman.render.RenderWindow;
+import bomberman.state.GameState;
+import bomberman.state.MenuState;
+import bomberman.state.StatesManager;
 import bomberman.system.GameLoop;
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 
-public class BombermanGame extends Application {
-    public static final int WIDTH = 15;
-    public static final int HEIGHT = 13;
+import java.io.IOException;
 
-    private final TileMap map = new TileMap();
-    private Canvas canvas;
-    private RenderWindow renderWindow;
+public class BombermanGame extends Application {
+    private final StatesManager statesManager = new StatesManager();
+    private Scene scene;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
     @Override
-    public void start(Stage stage) {
-        this.canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-        this.renderWindow = new RenderWindow(canvas);
-        this.renderWindow.setWidth(Sprite.SCALED_SIZE * WIDTH);
-        this.renderWindow.setHeight(Sprite.SCALED_SIZE * HEIGHT);
-        Group root = new Group();
-        root.getChildren().add(this.canvas);
-        Scene scene = new Scene(root);
+    public void start(Stage stage) throws IOException {
+
+//        this.canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        //stage.setHeight(506);
+        //stage.setWidth(490);
+        initStates();
+        scene = new Scene(statesManager.getCurrentState().getRoot());
         stage.setScene(scene);
         stage.setTitle("Bomberman");
         stage.getIcons().add(Sprite.bomb.getFxImage());
@@ -44,12 +41,27 @@ public class BombermanGame extends Application {
         gameLoop.start();
     }
 
+    private void initStates() {
+        try {
+            statesManager.addState("gamestate", new GameState());
+            statesManager.addState("menustate", new MenuState(this));
+        } catch (IOException e) {
+            System.out.println("cannot instantiate states");
+            Platform.exit();
+        }
+        this.statesManager.changeState("menustate");
+    }
+
     public void update() {
-        map.update();
+        statesManager.getCurrentState().update();
     }
 
     public void render() {
-        this.renderWindow.clear();
-        map.render(this.renderWindow);
+        statesManager.getCurrentState().render();
+    }
+
+    public void changeState(String name) {
+        statesManager.changeState(name);
+        scene.setRoot(this.statesManager.getCurrentState().getRoot());
     }
 }
