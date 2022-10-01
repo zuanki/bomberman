@@ -24,7 +24,7 @@ public class Bomb extends Entity {
 
     @Override
     public void render(RenderWindow renderWindow) {
-        renderWindow.render(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, (int) System.currentTimeMillis(),
+        renderWindow.render(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, (long) System.currentTimeMillis(),
                 400).getFxImage(), this.x, this.y);
     }
 
