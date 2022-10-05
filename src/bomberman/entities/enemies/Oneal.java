@@ -1,6 +1,7 @@
 package bomberman.entities.enemies;
 
 import bomberman.algorithm.AStar;
+import bomberman.entities.Bomber;
 import bomberman.entities.Direction;
 import bomberman.entities.Entity;
 import bomberman.entities.Flame;
@@ -105,6 +106,10 @@ public class Oneal extends Enemy {
     public void onCollision(Entity other) {
         if (other instanceof Flame) {
             this.setActive(false);
+            this.map.addAnimation(Sprite.oneal_dead, Sprite.oneal_dead, Sprite.oneal_dead, this.getColIndex(), this.getRowIndex());
+        }
+        if (other instanceof Bomber bomber) {
+            bomber.die();
         }
     }
 

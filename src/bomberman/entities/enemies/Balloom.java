@@ -1,5 +1,6 @@
 package bomberman.entities.enemies;
 
+import bomberman.entities.Bomber;
 import bomberman.entities.Direction;
 import bomberman.entities.Entity;
 import bomberman.entities.Flame;
@@ -53,6 +54,13 @@ public class Balloom extends Enemy {
     public void onCollision(Entity other) {
         if (other instanceof Flame) {
             this.setActive(false);
+            // ????
+            this.map.addAnimation(Sprite.balloom_dead, Sprite.balloom_dead, Sprite.balloom_dead, this.getColIndex(), this.getRowIndex());
+        }
+        if (other instanceof Bomber bomber) {
+            bomber.die();
         }
     }
+
+
 }

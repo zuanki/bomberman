@@ -1,5 +1,6 @@
 package bomberman.entities;
 
+import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
 import bomberman.map.TileMap;
 import bomberman.utilities.Vector2f;
@@ -83,5 +84,17 @@ public class Bomber extends Entity {
                 this.afterCollision(other);
             }
         }
+        if (other instanceof Flame) {
+            this.die();
+            //System.out.println("Player dead animation");
+            //System.out.println(this.getColIndex() + " "  + this.getRowIndex());
+            //System.out.println(this.x + " "+  this.y);
+        }
+    }
+
+    public void die() {
+        this.setActive(false);
+        //System.out.println("Unactive!!!");
+        this.map.addAnimation(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, this.getColIndex(), this.getRowIndex());
     }
 }
