@@ -3,3 +3,9 @@
     -fx-font-size: 10;
     -fx-font-family: "Javanese Text";
 }
+
+.greet {
+    -fx-text-fill: #42f5bc;
+    -fx-font-size: 10;
+    -fx-font-family: "Javanese Text";
+}
