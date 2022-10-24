@@ -1,5 +1,7 @@
 package bomberman.state;
 
+import bomberman.BombermanGame;
+import bomberman.controls.PlayingController;
 import bomberman.graphics.Sprite;
 import bomberman.map.TileMap;
 import bomberman.render.RenderWindow;
@@ -10,13 +12,24 @@ import java.io.IOException;
 
 public class GameState extends State {
 
-    private final TileMap map = new TileMap();
+    public static final int MAX_TIMER = 200 * 60;
+    private TileMap map;
     private Canvas canvas;
     private RenderWindow renderWindow;
+    private PlayingController playingController;
+    private BombermanGame game;
+    private int time = MAX_TIMER;
 
-    public GameState() throws IOException {
+    private int score = 0;
+
+    private int timeDelayState = 120;
+
+    public GameState(BombermanGame game) throws IOException {
+        this.game = game;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/playing.fxml"));
         root = loader.load();
+        playingController = loader.getController();
+        playingController.setBombermanGame(game);
         this.canvas = (Canvas) root.lookup("#canvas");
         this.renderWindow = new RenderWindow(canvas);
         this.renderWindow.setWidth(Sprite.SCALED_SIZE * WIDTH);
@@ -25,12 +38,19 @@ public class GameState extends State {
 
     @Override
     public void update() {
+        --time;
         this.map.update();
+        this.playingController.setTime(time / 60);
+        this.playingController.setScore(this.map.getScore());
+        this.playingController.setBomb(this.map.getCurrentBomb());
+        if (this.map.isGoToNextState() && --this.timeDelayState < 0) {
+            this.game.changeState("gameover");
+        }
     }
 
     @Override
     public void enter() {
-
+        this.map = new TileMap(game.getLevel(), game);
     }
 
     @Override
