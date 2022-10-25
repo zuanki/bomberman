@@ -6,13 +6,15 @@ import bomberman.render.RenderWindow;
 
 public class Bomb extends Entity {
     private final TileMap map;
-    private int timer = 2 * 60;
+    private int timer = 5 * 30;
     private boolean playerLeft = false;
 
     public Bomb(int xUnit, int yUnit, TileMap map, int layer) {
         super(xUnit, yUnit, Sprite.bomb.getFxImage(), layer);
         this.map = map;
     }
+
+
 
     public boolean isPlayerLeft() {
         return playerLeft;
@@ -22,6 +24,7 @@ public class Bomb extends Entity {
         this.playerLeft = playerLeft;
     }
 
+
     @Override
     public void render(RenderWindow renderWindow) {
         renderWindow.render(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, (long) System.currentTimeMillis(),
@@ -30,21 +33,23 @@ public class Bomb extends Entity {
 
     @Override
     public void update() {
+
         --timer;
         if (timer == 0) {
+          //  Bomber.bombOK = true;
             this.die();
         }
-
         if (!this.intersects(this.map.getBomber())) {
             this.playerLeft = true;
         }
+
     }
 
     private void die() {
         this.active = false;
         int r = this.getRowIndex();
         int c = this.getColIndex();
-        int radius = this.map.levelFlame;
+        int radius = TileMap.FLAME;
         this.map.addFlame(c, r, Flame.Type.CENTER);
         int[] dir_r = {0, 0, -1, 1};
         int[] dir_c = {-1, 1, 0, 0};
@@ -52,65 +57,21 @@ public class Bomb extends Entity {
             for (int t = 1; t <= radius; ++t) {
                 int x = r + t * dir_r[i];
                 int y = c + t * dir_c[i];
-                Entity tmp = this.map.getEntityAt(y, x);
+                Entity tmp = this.map.getEntityAt(y,x);
                 if (tmp instanceof Wall) {
                     break;
                 } else if (tmp instanceof Brick) {
                     //tmp = (Brick) tmp;
                     ((Brick) tmp).eliminate();
-                    this.map.addAnimation(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, y, x);
+                  //  controlGame.setCollision(true);
+                    this.map.addAnimation(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, y,x);
                     break;
                 } else {
                     this.map.addFlame(y, x, this.getFlameType(y, x, radius));
                 }
             }
         }
-        /*boolean up = false, down = false, left = false, right = false;
-        Entity[][] tmp = this.map.getBoard();
-        for (int i = 0; i < level; ++i) {
-            if (tmp[c][r - 1 - i] != null) {
-                up = true;
-                System.out.println("UP");
-                break;
-            }
-            this.map.addFlame(c, r - 1 - i, Flame.Type.VERTICAL);
-        }
-        for (int i = 0; i < level; ++i) {
-            if (tmp[c][r + 1 + i] != null) {
-                down = true;
-                System.out.println("DOWN");
-                break;
-            }
-            this.map.addFlame(c, r + 1 + i, Flame.Type.VERTICAL);
-        }
-        for (int i = 0; i < level; ++i) {
-            if (tmp[c - 1 - i][r] != null) {
-                left = true;
-                System.out.println("LEFT");
-                break;
-            }
-            this.map.addFlame(c - 1 - i, r, Flame.Type.HORIZONTAL);
-        }
-        for (int i = 0; i < level; ++i) {
-            if (tmp[c + 1 + i][r] != null) {
-                right = true;
-                System.out.println("RIGHT");
-                break;
-            }
-            this.map.addFlame(c + 1 + i, r, Flame.Type.HORIZONTAL);
-        }
-        if (!up && (r - 1 - level) >= 0 && tmp[c][r - 1 - level] != null) {
-            this.map.addFlame(c, r - 1 - level, Flame.Type.VERTICAL_TOP);
-        }
-        if (!down && (r + 1 + level) < tmp.length && tmp[c][r + 1 + level] != null) {
-            this.map.addFlame(c, r + 1 + level, Flame.Type.VERTICAL_DOWN);
-        }
-        if (!left && (c - 1 - level) >= 0 && tmp[c - 1 - level][r] != null) {
-            this.map.addFlame(c - 1 - level, r, Flame.Type.HORIZONTAL_LEFT);
-        }
-        if (!right && (c + 1 + level) < tmp[0].length && tmp[c + 1 + level][r] != null) {
-            this.map.addFlame(c + 1 + level, r, Flame.Type.HORIZONTAL_RIGHT);
-        }*/
+
     }
 
     public Flame.Type getFlameType(int xUnit, int yUnit, int radius) {

@@ -3,6 +3,10 @@ package bomberman.map;
 import bomberman.entities.*;
 import bomberman.entities.enemies.Balloom;
 import bomberman.entities.enemies.Oneal;
+import bomberman.entities.items.BombItem;
+import bomberman.entities.items.FlameItem;
+import bomberman.entities.items.PortalItem;
+import bomberman.entities.items.SpeedItem;
 import bomberman.graphics.Sprite;
 import bomberman.render.RenderWindow;
 import bomberman.system.EntitiesManager;
@@ -19,17 +23,36 @@ public class TileMap {
     public static final int ANIMATION_LAYER = 2;
     public static final int BRICK_LAYER = 1;
     public static final int ENEMY_LAYER = 1;
+    public static String NAMESTATE = "menustate" ;
+    public static boolean ISDIE = false;
+    public static int ITEM_LAYER =  0;
+
+    public static boolean LEFT_MAP = false;
     private final EntitiesManager entitiesManager = new EntitiesManager();
     private final PhysicSystem physicSystem = new PhysicSystem();
-    public int levelFlame = 2;
+    public int levelFlame = 1;
     private Bomber bomber;
+    private Bomb bomb;
     private int rows;
     private int cols;
     private Entity[][] board;
 
+
+    public static int SCORE = 0;
+    public static int SPEED = 100;
+    public static int FLAME = 1;
+    public static int BOMB = 1;
+    public static int LEFT = 3;
+    public static int LEVEL = 1;
+
+
     public TileMap() {
+//        LevelReader reader = new LevelReader(this);
+//        reader.read(LEVEL);
+    }
+    public void changeLevel(int n){
         LevelReader reader = new LevelReader(this);
-        reader.read(1);
+        reader.read(n);
     }
 
     public void addBomber(int xUnit, int yUnit) {
@@ -81,6 +104,7 @@ public class TileMap {
         return bomber;
     }
 
+
     public int getCols() {
         return cols;
     }
@@ -111,12 +135,16 @@ public class TileMap {
             System.out.println("Already have bomb");
         }*/
         if (this.board[yUnit][xUnit] == null) {
-            Bomb bomb = new Bomb(xUnit, yUnit, this, BOMB_LAYER);
+            this.bomb = new Bomb(xUnit, yUnit, this, BOMB_LAYER);
             this.entitiesManager.add(bomb);
             this.board[yUnit][xUnit] = bomb;
             this.physicSystem.add(bomb);
         }
     }
+    public Bomb getBomb(){
+        return this.bomb;
+    }
+
 
     public void addFlame(int xUnit, int yUnit, Flame.Type type) {
         Flame flame = new Flame(xUnit, yUnit, type, FLAME_LAYER);
@@ -138,6 +166,30 @@ public class TileMap {
         Oneal oneal = new Oneal(xUnit, yUnit, this);
         this.entitiesManager.add(oneal);
         this.physicSystem.add(oneal);
+    }
+
+    public void addSpeedItem(int xUnit,int yUnit){
+        SpeedItem speedItem = new SpeedItem(xUnit , yUnit, ITEM_LAYER, this);
+        this.entitiesManager.add(speedItem);
+        this.physicSystem.add(speedItem);
+    }
+
+    public void addFlameItem(int xUnit, int yUnit){
+        FlameItem flameItem = new FlameItem(xUnit, yUnit , ITEM_LAYER, this);
+        this.entitiesManager.add(flameItem);
+        this.physicSystem.add(flameItem);
+    }
+
+    public void addBombItem(int xUnit, int yUnit){
+        BombItem bombItem = new BombItem(xUnit, yUnit , ITEM_LAYER, this);
+        this.entitiesManager.add(bombItem);
+        this.physicSystem.add(bombItem);
+    }
+
+    public void addPortalItem(int xUnit, int yUnit){
+        PortalItem portalItem = new PortalItem(xUnit, yUnit , ITEM_LAYER, this);
+        this.entitiesManager.add(portalItem);
+        this.physicSystem.add(portalItem);
     }
 
 }

@@ -1,51 +1,76 @@
 package bomberman.entities;
 
+import bomberman.BombermanGame;
 import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
 import bomberman.map.TileMap;
+import bomberman.sound.Sound;
+import bomberman.state.StatesManager;
 import bomberman.utilities.Vector2f;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 public class Bomber extends Entity {
-    private final int playerWidth = 24; //24
-    private final int playerHeight = 32; //32
+    private final int playerWidth = 1; //24
+    private final int playerHeight = 2; //32
     private final TileMap map;
-    private final int moveSpeed = 2;
+    private final StatesManager statesManager = new StatesManager();
+    //  private int moveSpeed = TileMap.SPEED;
     boolean willDie = false;
     private int timer = 120; //120 / 60 = 2
+    private Sound sound = new Sound();
+
+    public static boolean bombOK = false;
+    static int bombCount = 0;
+    BombermanGame bombermanGame = new BombermanGame();
 
     public Bomber(int xUnit, int yUnit, Image image, TileMap map, int layer) {
         super(xUnit, yUnit, image, layer);
         super.setSize(this.width, this.height);
         this.map = map;
-    }
 
+    }
 
     @Override
     public void update() {
         if (willDie) {
             --timer;
             if (timer == 0) {
-                active = false;
+                this.active = false;
             }
         }
 
         if (KeyPolling.getInstance().isKeyDown(KeyCode.W)) {
-            this.y -= this.moveSpeed;
+
+
+            Sound.play_A("gameover_");
+
+            this.y -= TileMap.SPEED / 32;
+            this.image = Sprite.movingSprite(Sprite.player_up_2, Sprite.player_up_1, Sprite.player_up, System.currentTimeMillis(), 250).getFxImage();
 
         } else if (KeyPolling.getInstance().isKeyDown(KeyCode.S)) {
-            this.y += this.moveSpeed;
+            Sound.play_A("gameover_");
+            this.y += TileMap.SPEED / 32;
+            this.image = Sprite.movingSprite(Sprite.player_down_2, Sprite.player_down_1, Sprite.player_down, System.currentTimeMillis(), 300).getFxImage();
+
         } else if (KeyPolling.getInstance().isKeyDown(KeyCode.A)) {
-            this.x -= this.moveSpeed;
+            Sound.play_A("gameover_");
+            this.x -= TileMap.SPEED / 32;
+            this.image = Sprite.movingSprite(Sprite.player_left_2, Sprite.player_left_1, Sprite.player_left, System.currentTimeMillis(), 300).getFxImage();
+
         } else if (KeyPolling.getInstance().isKeyDown(KeyCode.D)) {
-            this.x += this.moveSpeed;
-        } else if (KeyPolling.getInstance().isKeyDown(KeyCode.X)) {
-            willDie = true;
+
+            Sound.play_A("gameover_");
+            this.x += TileMap.SPEED / 32;
+            this.image = Sprite.movingSprite(Sprite.player_right_2, Sprite.player_right_1, Sprite.player_right, System.currentTimeMillis(), 400).getFxImage();
+
         } else if (KeyPolling.getInstance().isKeyDown(KeyCode.K)) {
+
+            Sound.play_A("gameover_");
             this.map.addBomb(this.getColIndex(), this.getRowIndex());
         }
     }
+
 
     private void afterCollision(Entity other) {
         Vector2f playerHalfSize = new Vector2f((float) this.width / 2, (float) this.height / 2);
@@ -68,7 +93,6 @@ public class Bomber extends Entity {
         // After
         this.x += resolveX;
         this.y += resolveY;
-        //System.out.println(this.x + " " + this.y);
     }
 
     @Override
@@ -85,16 +109,27 @@ public class Bomber extends Entity {
             }
         }
         if (other instanceof Flame) {
+            //sound.playSound("gameover",1);
             this.die();
-            //System.out.println("Player dead animation");
-            //System.out.println(this.getColIndex() + " "  + this.getRowIndex());
-            //System.out.println(this.x + " "+  this.y);
         }
     }
 
     public void die() {
         this.setActive(false);
-        //System.out.println("Unactive!!!");
         this.map.addAnimation(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, this.getColIndex(), this.getRowIndex());
+
+
+        TileMap.LEFT--;
+        if(TileMap.LEFT > 0){
+            this.left_die();
+        }
+    }
+
+    public void left_die(){
+        this.map.addBomber(1, 1);
+        TileMap.LEFT_MAP = true;
+
+
     }
 }
+

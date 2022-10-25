@@ -19,6 +19,12 @@ public class Oneal extends Enemy {
     private final AStar aStar = new AStar();
     private final int radius = 3;
 
+//    public void callGame() throws IOException {
+//        //super();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/playing.fxml"));
+//        controlGame controlGame = loader.getController();
+//        controlGame.update();
+//    }
     public Oneal(int xUnit, int yUnit, TileMap map) {
         super(xUnit, yUnit, map);
     }
@@ -51,67 +57,22 @@ public class Oneal extends Enemy {
             int index = (int) (Math.random() * freeCells.size());
             return freeCells.get(index);
         }
-        // Pair (row, col)
-        /*System.out.println("Enemy :");
-        System.out.println(this.getColIndex() + " " + this.getRowIndex());
-        System.out.println("Bomber :");
-        System.out.println(playerXPos + " " + playerYPos);*/
-        //return aStar.nextMoveByAStar(board, new Pair<>(this.getColIndex(), this.getRowIndex()), new Pair<>(12, 15));
-        //return new Vector2i(this.getColIndex(), this.getRowIndex());
 
-        // Move random
-
-        /*List<Vector2i> freeCells = getFreeCell();
-        if (freeCells.isEmpty()) {
-            return new Vector2i(getRowIndex(), getColIndex());
-        }
-        int index = (int) (Math.random() * freeCells.size());*/
-
-
-        // Check convert map
-
-
-       /* int[][] tmp = this.convertMap(this.map.getBoard());
-        for (int[] ints : tmp) {
-            for (int j = 0; j < tmp[0].length; j++) {
-                System.out.print(ints[j] + " ");
-            }
-            System.out.println("\n");
-        }
-        System.out.println("Hello");*/
-        //return freeCells.get(index);
-
-        // Nguyen Hoa
-
-        /*int playerXPos = this.map.getBomber().getRowIndex();
-        int playerYPos = this.map.getBomber().getColIndex();
-        Pair<Integer, Integer> src = new Pair<>(this.getRowIndex(), this.getColIndex());
-        Pair<Integer, Integer> dest = new Pair<>(playerYPos, playerXPos);
-        // convert Entity to int[][]
-        System.out.println("Pos of enemy (src):");
-        System.out.println(src.getKey() + " " + src.getValue());
-        System.out.println("Pos of player (dest):");
-        System.out.println(dest.getKey() + " " + dest.getValue());
-        main.aStarSearch(convertMap(this.map.getBoard(), ROW, COL), src, new Pair<>(ROW - 2, COL - 2));
-        this.listMoveAStar = main.listMove;
-        System.out.println(listMoveAStar.get(0).getValue() + " " + listMoveAStar.get(0).getKey());
-        if (listMoveAStar.size() == 0) {
-            return new Vector2i(0, 0);
-        } else {
-            return new Vector2i(listMoveAStar.get(1).getKey(), listMoveAStar.get(1).getValue());
-        }*/
     }
 
     @Override
     public void onCollision(Entity other) {
+
         if (other instanceof Flame) {
             this.setActive(false);
+         //   callGame();
             this.map.addAnimation(Sprite.oneal_dead, Sprite.oneal_dead, Sprite.oneal_dead, this.getColIndex(), this.getRowIndex());
         }
         if (other instanceof Bomber bomber) {
+
             bomber.die();
+            }
         }
-    }
 
     private int[][] convertMap(Entity[][] entities) {
         int row = entities.length;

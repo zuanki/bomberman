@@ -13,6 +13,7 @@ public abstract class Entity {
     protected boolean active = true;
     protected Image image;
     protected int layer = 0;
+    protected boolean bombTest = true;
 
     public Entity(int xUnit, int yUnit, Image image, int layer) {
         this.x = xUnit * Sprite.SCALED_SIZE;
@@ -54,6 +55,14 @@ public abstract class Entity {
         return (int) (this.x + this.width / 2.0) / TileMap.CELL_SIZE;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -66,6 +75,12 @@ public abstract class Entity {
         renderWindow.render(image, x, y);
     }
 
+    public boolean intersects_item(Entity other){
+        boolean xCollision_item = (this.x + 5 < other.getX() + other.getWidth()) && (this.x + this.width > other.getX() +5);
+        boolean yCollision = (this.y +5 < other.getY() + other.getHeight() ) && (this.y + this.height > other.getY()+5 );
+        return xCollision_item && yCollision;
+    }
+
     public abstract void update();
 
     public void onCollision(Entity other) {
@@ -74,8 +89,8 @@ public abstract class Entity {
     
 
     public boolean intersects(Entity other) {
-        boolean xCollision = (this.x < other.x + other.width) && (this.x + this.width > other.x);
-        boolean yCollision = (this.y < other.y + other.height) && (this.y + this.height > other.y);
+        boolean xCollision = (this.x  < other.x + other.width) && (this.x + this.width > other.x );
+        boolean yCollision = (this.y  < other.y + other.height ) && (this.y + this.height > other.y );
         return xCollision && yCollision;
     }
 }

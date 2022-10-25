@@ -27,6 +27,13 @@ public class LevelReader {
                 if (symbol == '#') {
                     map.addWall(j, i);
                 } else if (symbol == '*') {
+                    map.addSpeedItem(j,i);
+                    map.addBrick(j, i);
+                }else if (symbol == '%') {
+                    map.addFlameItem(j,i);
+                    map.addBrick(j, i);
+                }else if (symbol == '^') {
+                    map.addBombItem(j,i);
                     map.addBrick(j, i);
                 } else if (symbol == 'p') {
                     map.addBomber(j, i);
@@ -34,6 +41,9 @@ public class LevelReader {
                     map.addEnemyBalloom(j, i);
                 } else if (symbol == '2') {
                     map.addEnemyOneal(j, i);
+                } else if (symbol == 't') {
+                    map.addPortalItem(j,i);
+                    map.addBrick(j, i);
                 }
                 map.addGrass(j, i);
             }

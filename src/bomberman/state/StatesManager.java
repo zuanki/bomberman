@@ -3,6 +3,7 @@ package bomberman.state;
 import java.util.HashMap;
 
 public class StatesManager {
+
     private final HashMap<String, State> states = new HashMap<>();
     private String currentState = "";
 

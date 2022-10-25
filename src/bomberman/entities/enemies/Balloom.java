@@ -10,6 +10,12 @@ import bomberman.render.RenderWindow;
 import bomberman.utilities.Vector2i;
 
 public class Balloom extends Enemy {
+//    public void callGame() throws IOException {
+//        //super();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/playing.fxml"));
+//        controlGame controlGame = loader.getController();
+//        controlGame.update();
+//    }
 
     public Balloom(int xUnit, int yUnit, TileMap map) {
         super(xUnit, yUnit, map);
@@ -52,15 +58,18 @@ public class Balloom extends Enemy {
 
     @Override
     public void onCollision(Entity other) {
-        if (other instanceof Flame) {
-            this.setActive(false);
-            // ????
-            this.map.addAnimation(Sprite.balloom_dead, Sprite.balloom_dead, Sprite.balloom_dead, this.getColIndex(), this.getRowIndex());
+
+            if (other instanceof Flame) {
+                this.setActive(false);
+                TileMap.SCORE += 100;
+                this.map.addAnimation(Sprite.balloom_dead, Sprite.balloom_dead, Sprite.balloom_dead, this.getColIndex(), this.getRowIndex());
+            }
+            if (other instanceof Bomber bomber) {
+
+                bomber.die();
+            }
         }
-        if (other instanceof Bomber bomber) {
-            bomber.die();
-        }
-    }
+
 
 
 }

@@ -24,7 +24,9 @@ public class LogIn {
     }
 
     private void checkLogIn() {
-        this.bombermanGame.changeState("gamestate");
+        if (username.getText().equals("admin") && password.getText().equals("admin")) {
+            this.bombermanGame.changeState("playing1");
+        }
     }
 
     public void setBombermanGame(BombermanGame bombermanGame) {
@@ -34,5 +36,17 @@ public class LogIn {
     public void userLogIn(ActionEvent actionEvent) {
         this.checkLogIn();
 
+    }
+
+    public void userEasyLevel() {
+        this.bombermanGame.changeState("playing1");
+    }
+
+    public void userMediumLevel() {
+        this.bombermanGame.changeState("playing2");
+    }
+
+    public void userHardLevel() {
+        //
     }
 }

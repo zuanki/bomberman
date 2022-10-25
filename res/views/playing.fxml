@@ -2,18 +2,10 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx"
-      stylesheets="@styles.css"
-      prefWidth="480"
-      prefHeight="448"
->
-
-    <HBox alignment="CENTER" prefWidth="480" prefHeight="32">
-        <Label text="Nguyen Xuan Hoa" styleClass="label"/>
-    </HBox>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="448" prefWidth="480" stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/17.0.2-ea">
+    <Label prefHeight="200.0" prefWidth="550.0" style="-fx-background-color: #000000;"/>
 
     <Canvas id="canvas" height="416" width="480"/>
 
