@@ -3,6 +3,7 @@ package bomberman.entities.items;
 import bomberman.entities.Entity;
 import bomberman.graphics.Sprite;
 import bomberman.map.TileMap;
+import bomberman.sound.Sound;
 
 public class SpeedItem extends Entity {
     private TileMap tileMap;
@@ -17,6 +18,7 @@ public class SpeedItem extends Entity {
     @Override
     public void update() {
         if(this.intersects_item(tileMap.getBomber())){
+            Sound.play_A("loot");
             TileMap.SPEED = 200;
             this.setActive(false);
 

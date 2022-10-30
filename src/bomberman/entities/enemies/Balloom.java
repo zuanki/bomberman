@@ -7,6 +7,7 @@ import bomberman.entities.Flame;
 import bomberman.graphics.Sprite;
 import bomberman.map.TileMap;
 import bomberman.render.RenderWindow;
+import bomberman.sound.Sound;
 import bomberman.utilities.Vector2i;
 
 public class Balloom extends Enemy {
@@ -60,6 +61,7 @@ public class Balloom extends Enemy {
     public void onCollision(Entity other) {
 
             if (other instanceof Flame) {
+                Sound.play_A("player death");
                 this.setActive(false);
                 TileMap.SCORE += 100;
                 this.map.addAnimation(Sprite.balloom_dead, Sprite.balloom_dead, Sprite.balloom_dead, this.getColIndex(), this.getRowIndex());

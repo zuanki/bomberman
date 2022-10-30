@@ -50,10 +50,10 @@ public class TileMap {
 //        LevelReader reader = new LevelReader(this);
 //        reader.read(LEVEL);
     }
-    public void changeLevel(int n){
-        LevelReader reader = new LevelReader(this);
-        reader.read(n);
-    }
+//    public void changeLevel(int n){
+//        LevelReader reader = new LevelReader(this);
+//        reader.read(n);
+//    }
 
     public void addBomber(int xUnit, int yUnit) {
         this.bomber = new Bomber(xUnit, yUnit, Sprite.player_down.getFxImage(), this, BOMBER_LAYER);

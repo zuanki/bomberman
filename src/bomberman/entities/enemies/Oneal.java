@@ -8,6 +8,7 @@ import bomberman.entities.Flame;
 import bomberman.graphics.Sprite;
 import bomberman.map.TileMap;
 import bomberman.render.RenderWindow;
+import bomberman.sound.Sound;
 import bomberman.utilities.Vector2i;
 import javafx.util.Pair;
 
@@ -64,6 +65,7 @@ public class Oneal extends Enemy {
     public void onCollision(Entity other) {
 
         if (other instanceof Flame) {
+            Sound.play_A("loot");
             this.setActive(false);
          //   callGame();
             this.map.addAnimation(Sprite.oneal_dead, Sprite.oneal_dead, Sprite.oneal_dead, this.getColIndex(), this.getRowIndex());

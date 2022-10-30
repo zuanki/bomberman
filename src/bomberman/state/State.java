@@ -8,6 +8,7 @@ import javafx.scene.media.MediaView;
 public abstract class State {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 13;
+    protected int timer = 0;
     protected Parent root;
     protected BombermanGame game = new BombermanGame();
     protected Canvas canvas;

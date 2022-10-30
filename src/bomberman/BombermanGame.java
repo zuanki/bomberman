@@ -3,10 +3,7 @@ package bomberman;
 import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
 import bomberman.sound.Sound;
-import bomberman.state.GameState;
-import bomberman.state.LeftTState;
-import bomberman.state.MenuState;
-import bomberman.state.StatesManager;
+import bomberman.state.*;
 import bomberman.system.GameLoop;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -46,9 +43,10 @@ public class BombermanGame extends Application {
     private void initStates() {
         try {
             statesManager.addState("playing1", new GameState(this,1));
-            statesManager.addState("menustate", new MenuState(this,"menu"));
-            statesManager.addState("leftstate",new LeftTState(this,"leftstate"));
+            statesManager.addState("menustate", new MenuState(this));
             statesManager.addState("playing2", new GameState(this,2));
+            statesManager.addState("mapstate", new MapState(this,"map"));
+            statesManager.addState("overstate",new OverState(this,"overstate"));
         } catch (IOException e) {
             System.out.println("cannot instantiate states");
             Platform.exit();

@@ -3,6 +3,7 @@ package bomberman.entities;
 import bomberman.graphics.Sprite;
 import bomberman.map.TileMap;
 import bomberman.render.RenderWindow;
+import bomberman.sound.Sound;
 
 public class Bomb extends Entity {
     private final TileMap map;
@@ -59,14 +60,17 @@ public class Bomb extends Entity {
                 int y = c + t * dir_c[i];
                 Entity tmp = this.map.getEntityAt(y,x);
                 if (tmp instanceof Wall) {
+                    Sound.play_A("bomb");
                     break;
                 } else if (tmp instanceof Brick) {
                     //tmp = (Brick) tmp;
                     ((Brick) tmp).eliminate();
+                    Sound.play_A("bomb");
                   //  controlGame.setCollision(true);
                     this.map.addAnimation(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, y,x);
                     break;
                 } else {
+                    Sound.play_A("bomb");
                     this.map.addFlame(y, x, this.getFlameType(y, x, radius));
                 }
             }

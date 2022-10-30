@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class GameState extends State {
 
-    private controlGame controlGame ;
+    private bomberman.control.controlGame controlGame ;
 
 
     private Label label = new Label();
@@ -24,7 +24,7 @@ public class GameState extends State {
     public GameState(BombermanGame game, int state) throws IOException {
 
         levelReader.read(state);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/playing"+Integer.toString(state)+".fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/playing"+1+".fxml"));
         root = loader.load();
         controlGame = loader.getController();
         canvas = (Canvas) root.lookup("#canvas");;
@@ -45,8 +45,12 @@ public class GameState extends State {
 
         this.map.update();
         controlGame.update();
-        if (controlGame.startGame1) {
-            this.game.changeState(TileMap.NAMESTATE);
+        if ( TileMap.ISDIE) {
+            this.game.changeState("overstate");
+            TileMap.ISDIE = false;
+        }
+        if( TileMap.LEFT_MAP){
+            this.game.changeState("mapstate");
         }
     }
 
