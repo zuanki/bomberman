@@ -1,13 +1,17 @@
 package bomberman.map;
 
+import bomberman.BombermanGame;
 import bomberman.entities.*;
-import bomberman.entities.enemies.Balloom;
-import bomberman.entities.enemies.Oneal;
+import bomberman.entities.enemies.*;
+import bomberman.entities.items.BombItem;
+import bomberman.entities.items.FlameItem;
+import bomberman.entities.items.SpeedItem;
 import bomberman.graphics.Sprite;
 import bomberman.render.RenderWindow;
 import bomberman.system.EntitiesManager;
 import bomberman.system.PhysicSystem;
 import bomberman.utilities.Util;
+import bomberman.utilities.Vector2i;
 
 public class TileMap {
     public static final int CELL_SIZE = Sprite.SCALED_SIZE;
@@ -17,20 +21,56 @@ public class TileMap {
     public static final int BOMB_LAYER = 1;
     public static final int FLAME_LAYER = 1;
     public static final int ANIMATION_LAYER = 2;
+    public static final int ITEM_LAYER = 0;
     public static final int BRICK_LAYER = 1;
     public static final int ENEMY_LAYER = 1;
     private final EntitiesManager entitiesManager = new EntitiesManager();
     private final PhysicSystem physicSystem = new PhysicSystem();
     public int levelFlame = 2;
+    private BombermanGame game;
     private Bomber bomber;
     private int rows;
     private int cols;
     private Entity[][] board;
+    private int score = 0;
+    private int currentBomb = 1;
+    private int currentEnemy = 0;
+    private boolean changeState = false;
 
-    public TileMap() {
+    public TileMap(int level, BombermanGame game) {
         LevelReader reader = new LevelReader(this);
-        reader.read(1);
+        reader.read(level);
+        this.game = game;
     }
+
+    public Vector2i getPlayerPosition() {
+        return this.bomber.getPosition();
+    }
+
+    public void gotoNextState() {
+        changeState = true;
+    }
+
+    public boolean isGoToNextState() {
+        return changeState;
+    }
+
+    public int getCurrentBomb() {
+        return currentBomb;
+    }
+
+    public void increaseScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void goToWinState() {
+        this.game.changeState("winstate");
+    }
+
 
     public void addBomber(int xUnit, int yUnit) {
         this.bomber = new Bomber(xUnit, yUnit, Sprite.player_down.getFxImage(), this, BOMBER_LAYER);
@@ -140,4 +180,79 @@ public class TileMap {
         this.physicSystem.add(oneal);
     }
 
+    public void addEnemyMinvo(int xUnit, int yUnit) {
+        Minvo minvo = new Minvo(xUnit, yUnit, this);
+        this.entitiesManager.add(minvo);
+        this.physicSystem.add(minvo);
+    }
+
+    public void addEnemyKondoria(int xUnit, int yUnit) {
+        Kondoria kondoria = new Kondoria(xUnit, yUnit, this);
+        this.entitiesManager.add(kondoria);
+        this.physicSystem.add(kondoria);
+    }
+
+    public void addEnemyDoll(int xUnit, int yUnit) {
+        Doll doll = new Doll(xUnit, yUnit, this);
+        this.entitiesManager.add(doll);
+        this.physicSystem.add(doll);
+    }
+
+    public void addSpeedItem(int xUnit, int yUnit) {
+        SpeedItem speedItem = new SpeedItem(xUnit, yUnit, ITEM_LAYER, this);
+        this.entitiesManager.add(speedItem);
+        this.physicSystem.add(speedItem);
+    }
+
+    public void addBombItem(int xUnit, int yUnit) {
+        BombItem bombItem = new BombItem(xUnit, yUnit, ITEM_LAYER, this);
+        this.entitiesManager.add(bombItem);
+        this.physicSystem.add(bombItem);
+    }
+
+    public void addFlameItem(int xUnit, int yUnit) {
+        FlameItem flameItem = new FlameItem(xUnit, yUnit, ITEM_LAYER, this);
+        this.entitiesManager.add(flameItem);
+        this.physicSystem.add(flameItem);
+    }
+
+
+    public void addPortal(int xUnit, int yUnit) {
+        Portal portal = new Portal(xUnit, yUnit, ITEM_LAYER, this);
+        this.entitiesManager.add(portal);
+        this.physicSystem.add(portal);
+    }
+
+    public void increaseBomb() {
+        ++currentBomb;
+    }
+
+    public void descreaseBomb() {
+        --currentBomb;
+    }
+
+    public void increaseEnemy() {
+        this.currentEnemy++;
+    }
+
+    public void descreaseEnemy() {
+        this.currentEnemy--;
+    }
+
+    public int getCurrentEnemy() {
+        return currentEnemy;
+    }
+
+
+    public void levelUpFlame() {
+        this.levelFlame++;
+    }
+
+    public void goBackToMenu() {
+        this.game.changeState("menustate");
+    }
+
+    public boolean isTurnOffAudio() {
+        return this.game.getAudioState();
+    }
 }

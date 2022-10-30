@@ -114,7 +114,7 @@ public class AStar {
             return;
         }
         if (isDestination(src.getKey(), src.getValue(), dest)) {
-            System.out.println("We are already at the dest");
+            System.out.println("Targeted");
             return;
         }
         boolean[][] closedList = new boolean[ROW][COL];

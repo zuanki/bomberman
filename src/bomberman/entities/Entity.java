@@ -6,8 +6,8 @@ import bomberman.render.RenderWindow;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
-    protected int width = 30; // 32
-    protected int height = 30; // 32
+    protected int width = 27; // 32
+    protected int height = 27; // 32
     protected int x;
     protected int y;
     protected boolean active = true;
@@ -71,7 +71,7 @@ public abstract class Entity {
     public void onCollision(Entity other) {
         //
     }
-    
+
 
     public boolean intersects(Entity other) {
         boolean xCollision = (this.x < other.x + other.width) && (this.x + this.width > other.x);

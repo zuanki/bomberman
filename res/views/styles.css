@@ -1,11 +1,7 @@
-.label {
-    -fx-text-fill: red;
-    -fx-font-size: 10;
-    -fx-font-family: "Javanese Text";
-}
-
-.greet {
-    -fx-text-fill: #42f5bc;
-    -fx-font-size: 10;
-    -fx-font-family: "Javanese Text";
+#Level {
+    -fx-background-color: #4CAF50;
+    -fx-color: white;
+    -fx-text-align: center;
+    -fx-text-decoration: none;
+    -fx-display: inline-block;
 }

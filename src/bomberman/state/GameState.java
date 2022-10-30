@@ -38,19 +38,23 @@ public class GameState extends State {
 
     @Override
     public void update() {
-        --time;
-        this.map.update();
-        this.playingController.setTime(time / 60);
-        this.playingController.setScore(this.map.getScore());
-        this.playingController.setBomb(this.map.getCurrentBomb());
-        if (this.map.isGoToNextState() && --this.timeDelayState < 0) {
-            this.game.changeState("gameover");
+        if (this.playingController.getStateUpdate()) {
+            --time;
+            this.map.update();
+            this.playingController.setTime(time / 60);
+            this.playingController.setScore(this.map.getScore());
+            this.playingController.setBomb(this.map.getCurrentBomb());
+            if (this.map.isGoToNextState() && --this.timeDelayState < 0) {
+                this.game.changeState("gameover");
+                this.timeDelayState = 120;
+            }
         }
     }
 
     @Override
     public void enter() {
         this.map = new TileMap(game.getLevel(), game);
+        this.playingController.reset();
     }
 
     @Override

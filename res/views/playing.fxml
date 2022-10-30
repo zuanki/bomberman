@@ -1,20 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx"
-      stylesheets="@styles.css"
-      prefWidth="480"
-      prefHeight="448"
->
+<?import javafx.scene.text.Font?>
 
-    <HBox alignment="CENTER" prefWidth="480" prefHeight="32">
-        <Label text="Nguyen Xuan Hoa" styleClass="label"/>
-    </HBox>
+<VBox prefHeight="448" prefWidth="480" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bomberman.controls.PlayingController">
+    <AnchorPane prefHeight="65.0" prefWidth="480.0" style="-fx-background-color: #7ee3f2;">
+        <children>
+            <Button mnemonicParsing="false" onAction="#returnMenu" prefHeight="36.0" prefWidth="34.0" text="🏠">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Button>
+            <Label layoutX="100.0" layoutY="5.0" prefHeight="26.0" prefWidth="34.0" text="⏰">
+                <font>
+                    <Font name="System Bold" size="17.0" />
+                </font>
+            </Label>
+            <Label fx:id="playingTime" layoutX="142.0" layoutY="8.0" prefHeight="18.0" prefWidth="34.0" text="200">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="420.0" layoutY="5.0" prefHeight="20.0" prefWidth="22.0" text="💣">
+                <font>
+                    <Font size="17.0" />
+                </font>
+            </Label>
+            <Label fx:id="playingBomb" layoutX="443.0" layoutY="5.0" prefHeight="22.0" prefWidth="22.0" text="1">
+                <font>
+                    <Font name="System Bold" size="17.0" />
+                </font>
+            </Label>
+            <Label layoutX="229.0" layoutY="5.0" prefHeight="26.0" prefWidth="22.0" text="🎁">
+                <font>
+                    <Font size="17.0" />
+                </font>
+            </Label>
+            <Label fx:id="playingScore" layoutX="263.0" layoutY="5.0" prefHeight="26.0" prefWidth="63.0" text="0">
+                <font>
+                    <Font name="System Bold" size="17.0" />
+                </font>
+            </Label>
+            <Button fx:id="stateGame" layoutX="318.0" layoutY="4.0" mnemonicParsing="false" onAction="#userPause" prefHeight="26.0" prefWidth="34.0" text="⏸">
+                <font>
+                    <Font size="13.0" />
+                </font>
+            </Button>
+        </children>
+    </AnchorPane>
 
-    <Canvas id="canvas" height="416" width="480"/>
+    <Canvas id="canvas" height="416" width="480" />
 
 </VBox>

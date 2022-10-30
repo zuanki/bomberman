@@ -1,17 +1,26 @@
 package bomberman.entities;
 
+import bomberman.audio.Sound;
 import bomberman.graphics.Sprite;
 import bomberman.map.TileMap;
 import bomberman.render.RenderWindow;
 
 public class Bomb extends Entity {
+
     private final TileMap map;
+
+    private Sound putBomb = new Sound("/audio/put.wav", false);
+
+    private Sound bombExplosion = new Sound("/audio/bombExplosion.wav", false);
     private int timer = 2 * 60;
     private boolean playerLeft = false;
 
     public Bomb(int xUnit, int yUnit, TileMap map, int layer) {
         super(xUnit, yUnit, Sprite.bomb.getFxImage(), layer);
         this.map = map;
+        if (!this.map.isTurnOffAudio()) {
+            this.putBomb.play();
+        }
     }
 
     public boolean isPlayerLeft() {
@@ -41,7 +50,11 @@ public class Bomb extends Entity {
     }
 
     private void die() {
+        if (!this.map.isTurnOffAudio()) {
+            this.bombExplosion.play();
+        }
         this.active = false;
+        this.map.increaseBomb();
         int r = this.getRowIndex();
         int c = this.getColIndex();
         int radius = this.map.levelFlame;
@@ -137,3 +150,4 @@ public class Bomb extends Entity {
         return null;
     }
 }
+

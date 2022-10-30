@@ -11,23 +11,26 @@ import bomberman.utilities.Vector2i;
 
 import java.util.Random;
 
-public class Balloom extends Enemy {
-    // Thinh thoang doi huong
-    private int BALLOOM_SCORE = 100;
+public class Minvo extends Enemy {
+    // duoi theo bomber, biet tranh bomb
+    private int MINVO_SCORE = 300;
+
+    private int bomb_radius;
 
     private Random random = new Random();
 
-    public Balloom(int xUnit, int yUnit, TileMap map) {
+    public Minvo(int xUnit, int yUnit, TileMap map) {
         super(xUnit, yUnit, map);
+        this.bomb_radius = super.map.levelFlame;
     }
 
     @Override
     public void render(RenderWindow renderWindow) {
         if (this.animationDir == Direction.LEFT) {
-            renderWindow.render(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3,
+            renderWindow.render(Sprite.movingSprite(Sprite.minvo_left1, Sprite.minvo_left2, Sprite.minvo_left3,
                     (long) System.currentTimeMillis(), 400).getFxImage(), this.x, this.y);
         } else if (this.animationDir == Direction.RIGHT) {
-            renderWindow.render(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3,
+            renderWindow.render(Sprite.movingSprite(Sprite.minvo_right1, Sprite.minvo_right2, Sprite.minvo_right3,
                     (long) System.currentTimeMillis(), 400).getFxImage(), this.x, this.y);
         }
     }
@@ -42,11 +45,7 @@ public class Balloom extends Enemy {
         return freeCells.get(index);*/
         int r = this.getRowIndex();
         int c = this.getColIndex();
-
-        if (this.canDetectedPlayer()) {
-            this.movingVector = this.randomDirection();
-        }
-
+        this.randomSpeed();
         // Try to move current dir
         if (canMove(c + movingVector.x, r + movingVector.y)) {
             return new Vector2i(c + movingVector.x, r + movingVector.y);
@@ -68,27 +67,19 @@ public class Balloom extends Enemy {
                 enemyTimeDelay = ENEMY_TIME_DELAY;
                 this.map.descreaseEnemy();
             }
-            // ????
-            this.map.addAnimation(Sprite.balloom_dead, Sprite.balloom_dead, Sprite.balloom_dead, this.getColIndex(), this.getRowIndex());
-            this.map.increaseScore(BALLOOM_SCORE);
+            this.map.addAnimation(Sprite.minvo_dead, Sprite.minvo_dead, Sprite.minvo_dead, this.getColIndex(), this.getRowIndex());
+            this.map.increaseScore(MINVO_SCORE);
         }
         if (other instanceof Bomber bomber) {
             bomber.die();
         }
     }
 
-    private Vector2i randomDirection() {
-        if (this.random.nextBoolean()) {
-            return new Vector2i(1, 0);
+    public void randomSpeed() {
+        if (random.nextBoolean()) {
+            this.speed = 5;
         } else {
-            return new Vector2i(0, 1);
+            this.speed = 1;
         }
-    }
-
-    private boolean canDetectedPlayer() {
-        Vector2i playerPos = this.map.getPlayerPosition();
-        boolean m = Math.abs(getColIndex() - playerPos.x) <= 1;
-        boolean n = Math.abs(getRowIndex() - playerPos.y) <= 1;
-        return m && n;
     }
 }

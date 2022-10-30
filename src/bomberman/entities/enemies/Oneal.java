@@ -12,12 +12,19 @@ import bomberman.utilities.Vector2i;
 import javafx.util.Pair;
 
 import java.util.List;
+import java.util.Random;
 
 
 public class Oneal extends Enemy {
+    // Neu phat hien bomber thi duoi theo
     //private List<Pair<Integer, Integer>> listMoveAStar = new ArrayList<>();
     private final AStar aStar = new AStar();
     private final int radius = 3;
+
+    private Random random = new Random();
+    // khi phat hien ra bomber thi duoi theo
+    //private OAStar oaStar;
+    private int ONEAL_SCORE = 200;
 
     public Oneal(int xUnit, int yUnit, TileMap map) {
         super(xUnit, yUnit, map);
@@ -43,7 +50,17 @@ public class Oneal extends Enemy {
             int[][] board = convertMap(this.map.getBoard());
             return aStar.nextMoveByAStar(board, new Pair<>(this.getRowIndex(),
                     this.getColIndex()), new Pair<>(playerRowPos, playerColPos));
-        } else {
+        }
+        /*if (this.canDetectBomber()) {
+            int playerRowPos = this.map.getBomber().getRowIndex();
+            int playerColPos = this.map.getBomber().getColIndex();
+            int[][] board = convertMap(this.map.getBoard());
+            this.oaStar = new OAStar(board, new Node(this.getRowIndex(), this.getColIndex()), new Node(playerRowPos, playerColPos));
+            Vector2<Integer> nextMove = this.oaStar.nextMoveByAStar();
+            return new Vector2i(nextMove.x, nextMove.y);
+        } */
+
+        else {
             List<Vector2i> freeCells = getFreeCell();
             if (freeCells.isEmpty()) {
                 return new Vector2i(getRowIndex(), getColIndex());
@@ -106,7 +123,12 @@ public class Oneal extends Enemy {
     public void onCollision(Entity other) {
         if (other instanceof Flame) {
             this.setActive(false);
+            if (this.map.getCurrentEnemy() > 0 && enemyTimeDelay < 0) {
+                enemyTimeDelay = ENEMY_TIME_DELAY;
+                this.map.descreaseEnemy();
+            }
             this.map.addAnimation(Sprite.oneal_dead, Sprite.oneal_dead, Sprite.oneal_dead, this.getColIndex(), this.getRowIndex());
+            this.map.increaseScore(ONEAL_SCORE);
         }
         if (other instanceof Bomber bomber) {
             bomber.die();
@@ -135,6 +157,14 @@ public class Oneal extends Enemy {
         int destXPos = this.map.getBomber().getColIndex();
         int destYPos = this.map.getBomber().getRowIndex();
         return Math.abs(srcXPos - destXPos) <= this.radius && Math.abs(srcYPos - destYPos) <= this.radius;
+    }
+
+    private void randomSpeed() {
+        if (this.random.nextBoolean()) {
+            this.speed = 3;
+        } else {
+            this.speed = 1;
+        }
     }
 }
 

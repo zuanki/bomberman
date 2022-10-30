@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Enemy extends Entity {
+    public static int ENEMY_TIME_DELAY = 60 / 2;
+    public static int enemyTimeDelay = 0;
     protected final TileMap map;
 
     protected Direction animationDir = Direction.RIGHT;
-    protected int speed = 1;
+    protected int speed = 2;
 
     protected Vector2i movingVector = new Vector2i(1, 0);
     private Vector2i nextCell;
@@ -34,6 +36,7 @@ public abstract class Enemy extends Entity {
         // convert cell coordinate to world
         int nextX = nextCell.x * TileMap.CELL_SIZE;
         int nextY = nextCell.y * TileMap.CELL_SIZE;
+        --enemyTimeDelay;
 
         // check last move
         if (Math.abs(x - nextX) < speed && Math.abs(y - nextY) < speed) {

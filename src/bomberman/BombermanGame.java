@@ -2,9 +2,7 @@ package bomberman;
 
 import bomberman.graphics.Sprite;
 import bomberman.inputs.KeyPolling;
-import bomberman.state.GameState;
-import bomberman.state.MenuState;
-import bomberman.state.StatesManager;
+import bomberman.state.*;
 import bomberman.system.GameLoop;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,6 +14,10 @@ import java.io.IOException;
 public class BombermanGame extends Application {
     private final StatesManager statesManager = new StatesManager();
     private Scene scene;
+
+    private boolean turnOffAudio = false;
+
+    private int level = 1;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -43,8 +45,11 @@ public class BombermanGame extends Application {
 
     private void initStates() {
         try {
-            statesManager.addState("gamestate", new GameState());
+            statesManager.addState("playing", new GameState(this));
             statesManager.addState("menustate", new MenuState(this));
+            statesManager.addState("winstate", new WinState(this));
+            statesManager.addState("gameover", new GameOverState(this));
+            statesManager.addState("helpingstate", new HelpingState(this));
         } catch (IOException e) {
             System.out.println("cannot instantiate states");
             Platform.exit();
@@ -53,7 +58,9 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+
         statesManager.getCurrentState().update();
+
     }
 
     public void render() {
@@ -63,5 +70,21 @@ public class BombermanGame extends Application {
     public void changeState(String name) {
         statesManager.changeState(name);
         scene.setRoot(this.statesManager.getCurrentState().getRoot());
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setAudio(boolean x) {
+        this.turnOffAudio = x;
+    }
+
+    public boolean getAudioState() {
+        return this.turnOffAudio;
     }
 }

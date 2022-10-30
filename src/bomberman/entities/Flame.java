@@ -6,7 +6,7 @@ import bomberman.render.RenderWindow;
 
 public class Flame extends Entity {
     public Type type;
-    private int timer = 60;
+    private int timer = 15;
 
     public Flame(int xUnit, int yUnit, Type type, int layer) {
         super(xUnit, yUnit, null, layer);
